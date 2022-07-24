@@ -8,7 +8,7 @@ class ProductsService {
     }
 
     generate() {
-        const limit = 100;
+        const limit = 5;
         for (let index = 0; index < limit; index++) {
             this.products.push({
                 id: faker.datatype.uuid(),
@@ -28,10 +28,6 @@ class ProductsService {
         return newProduct;
     }
 
-    find() {
-        return this.products;
-    }
-
     findOne(id) {
         return this.products.find(item => item.id === id);
     }
@@ -48,6 +44,12 @@ class ProductsService {
         };
         return this.products[index];
     }
+    //Otra forma de hacer el Update con el map
+    // update(id, changes) {
+    //     const items = this.products.map(item => items.id !== id ? item : { item, ...changes });
+    //     this.products = items;
+    //     return this.products;
+    // }
 
     delete(id) {
         const index = this.products.findIndex(item => item.id === id);
@@ -57,6 +59,13 @@ class ProductsService {
         this.products.splice(index, 1);
         return { id };
     }
+
+    //Otra forma de hacer el Delete con el filter
+    // delete(id) {
+    //     const items = this.products.filter(item => item.id !== id);
+    //     this.products = items;
+    //     return this.products;
+    // }
 
 }
 
