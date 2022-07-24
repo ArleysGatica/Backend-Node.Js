@@ -4,12 +4,12 @@ const cors = require('cors');
 const { LogError, ErrorHandler, BoomError } = require('./Middleware/ErrorHandler');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //Middleware for create a new product 
 app.use(express.json());
 
-const whitelist = ['http://127.0.0.1:5500', 'https://myapp.co'];
+const whitelist = ['http://localhost:3000', 'https://myapp.co'];
 const options = {
     origin: (origin, callback) => {
         if (whitelist.includes(origin) || !origin) {
@@ -22,7 +22,7 @@ const options = {
 app.use(cors(options));
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.send("Hello World!♥!");
 });
 
 routerApi(app);
