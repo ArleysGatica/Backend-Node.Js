@@ -10,9 +10,7 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
- routerApi(app);
+routerApi(app);
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) });
-
-
 
