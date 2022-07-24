@@ -1,11 +1,25 @@
 const express = require('express');
 const routerApi = require('./Router');
+const cors = require('cors');
 const { LogError, ErrorHandler, BoomError } = require('./Middleware/ErrorHandler');
+
 const app = express();
 const port = 3000;
 
 //Middleware for create a new product 
 app.use(express.json());
+
+const whitelist = ['http://127.0.0.1:5500', 'https://myapp.co'];
+const options = {
+    origin: (origin, callback) => {
+        if (whitelist.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('no permitido'));
+        }
+    }
+}
+app.use(cors(options));
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
@@ -19,4 +33,3 @@ app.use(BoomError);
 app.use(ErrorHandler);
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) });
-
