@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 //Middleware for create a new product 
 app.use(express.json());
 
-const whitelist = ['http://localhost:3000', 'https://myapp.co'];
+const whitelist = ['http://localhost:5000', 'https://myapp.co'];
 const options = {
     origin: (origin, callback) => {
         if (whitelist.includes(origin) || !origin) {
