@@ -1,5 +1,6 @@
 const express = require('express');
 const routerApi = require('./Router');
+const { LogError, ErrorHandler, BoomError } = require('./Middleware/ErrorHandler');
 const app = express();
 const port = 3000;
 
@@ -11,6 +12,11 @@ app.get("/", (req, res) => {
 });
 
 routerApi(app);
+
+//aqui se pone el error handler para que se ejecute antes de que se ejecute el error handler
+app.use(LogError);
+app.use(BoomError);
+app.use(ErrorHandler);
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) });
 

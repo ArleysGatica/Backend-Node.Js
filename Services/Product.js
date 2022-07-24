@@ -1,4 +1,5 @@
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 class ProductsService {
 
@@ -7,7 +8,7 @@ class ProductsService {
         this.generate();
     }
 
-    generate() {
+    async generate() {
         const limit = 5;
         for (let index = 0; index < limit; index++) {
             this.products.push({
@@ -15,11 +16,12 @@ class ProductsService {
                 name: faker.commerce.productName(),
                 price: parseInt(faker.commerce.price(), 10),
                 image: faker.image.imageUrl(),
+                bloque: faker.datatype.boolean()
             });
         }
     }
 
-    create(data) {
+    async create(data) {
         const newProduct = {
             id: faker.datatype.uuid(),
             ...data
@@ -28,14 +30,25 @@ class ProductsService {
         return newProduct;
     }
 
-    findOne(id) {
-        return this.products.find(item => item.id === id);
+    async find() {
+        return this.products;
     }
 
-    update(id, changes) {
+    async findOne(id) {
+        const product = this.products.find(item => item.id === id);
+        if (!product) {
+            throw boom.notFound('product not found');
+        }
+        if (product.bloque) {
+            throw boom.conflict('product is blocked');
+        }
+        return product;
+    }
+
+    async update(id, changes) {
         const index = this.products.findIndex(item => item.id === id);
         if (index === -1) {
-            throw new Error('product not found');
+            throw boom.notFound('product not found');
         }
         const product = this.products[index];
         this.products[index] = {
@@ -45,23 +58,23 @@ class ProductsService {
         return this.products[index];
     }
     //Otra forma de hacer el Update con el map
-    // update(id, changes) {
+    // async update(id, changes) {
     //     const items = this.products.map(item => items.id !== id ? item : { item, ...changes });
     //     this.products = items;
     //     return this.products;
     // }
 
-    delete(id) {
+    async delete(id) {
         const index = this.products.findIndex(item => item.id === id);
         if (index === -1) {
-            throw new Error('product not found');
+            throw boom.notFound('product not found');
         }
         this.products.splice(index, 1);
         return { id };
     }
 
     //Otra forma de hacer el Delete con el filter
-    // delete(id) {
+    //async delete(id) {
     //     const items = this.products.filter(item => item.id !== id);
     //     this.products = items;
     //     return this.products;
