@@ -1,11 +1,9 @@
 const { Pool } = require('pg');
+const { config } = require('../Env/Config')
 
-const PollConexion = new Pool({
-    host: 'localhost',
-    port: 5432,
-    user: 'nicho',
-    password: 'nicho123',
-    database: 'my_base'
-});
+const USER = encodeURIComponent(config.dbUser);
+const PASSWORD = encodeURIComponent(config.dbPassword)
+const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+const PollConexion = new Pool({ connectionString: URI });
 
 module.exports = PollConexion;
