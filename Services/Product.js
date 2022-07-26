@@ -1,11 +1,16 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
+const PollConexion = require('../Libs/postgres-Conexion-Pool');
 
 class ProductsService {
 
     constructor() {
         this.products = [];
         this.generate();
+        this.PollConexion = PollConexion;
+        this.PollConexion.on('error', (err) => {
+            console.error('Unexpected error on idle client', err)
+        })
     }
 
     async generate() {
@@ -31,7 +36,9 @@ class ProductsService {
     }
 
     async find() {
-        return this.products;
+        const Cliente = 'SELECT *FROM product'
+        const query = await this.PollConexion.query(Cliente)
+        return query.rows;
     }
 
     async findOne(id) {
