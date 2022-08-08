@@ -1,0 +1,5 @@
+─ docker compose up -d pgadmin
+─ docker compose up -d postgres
+
+//manually create the database
+ docker run --name=mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=admin123 -d mysql/mysql-server:8.0
