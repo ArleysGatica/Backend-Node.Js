@@ -33,3 +33,31 @@ app.use(BoomError);
 app.use(ErrorHandler);
 
 app.listen(port, () => { console.log(`Example app listening on port ${port}!`) });
+
+
+
+// CREATE TABLE Categories (
+//     id serial PRIMARY KEY,
+//         name varchar(50) NOT NULL,
+//         image varchar(255) NOT NULL
+//         completed boolean default false
+
+// )
+ 
+// CREATE TABLE Product(
+//     id serial PRIMARY KEY,
+//     name varchar(50) NOT NULL,
+//     description varchar(255) NOT NULL,
+//     price numeric(10, 2) NOT NULL,
+//     category_id integer NOT NULL,
+//     FOREIGN KEY(category_id) REFERENCES Categories(id)
+// )
+
+/* CREATE TABLE Users(
+    id serial PRIMARY KEY,
+    name varchar(50) NOT NULL,
+    email varchar(50) NOT NULL,
+    password varchar(255) NOT NULL,
+    role varchar(50) NOT NULL
+) */
+
