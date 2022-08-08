@@ -2,3 +2,5 @@
 /dist
 .vscode
 postgres_data
+docker-entrypoint-initdb.d
+mysql_data
