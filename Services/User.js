@@ -1,37 +1,39 @@
 const boom = require('@hapi/boom');
-const PollConexion = require('../Libs/postgres-Conexion-Pool');
+const Sequelize = require('../Libs/Sequile');
 const postgresConexion = require('../Libs/postgres-Conexion');
+const { models } = require('./../Libs/Sequile');
 
 class UserService {
     constructor() {
-        this.PollConexion = PollConexion;
-        this.PollConexion.on('error', (err) => {
-            console.error('Unexpected error on idle client', err)
-        })
     }
 
     async create(data) {
-        return data;
+        const newUser = await models.users.create(data);
+        return newUser;
     }
 
     async find() {
-        const Cliente = 'SELECT *FROM users'
-        const query = await this.PollConexion.query(Cliente)
-        return query.rows;
+        const Cliente = await models.users.findAll();
+        return Cliente;
     }
 
     async findOne(id) {
-        return { id };
+        const user = await models.users.findByPk(id);
+        if (!user) {
+           throw boom.notFound('USER notFound')
+        }
+        return user;
     }
 
     async update(id, changes) {
-        return {
-            id,
-            changes,
-        };
+        const user = await this.findOne(id)
+        const Rest = await user.update(changes);
+        return Rest;
     }
 
     async delete(id) {
+        const user = await this.findOne(id)
+        await user.destroy();
         return { id };
     }
 }
