@@ -22,11 +22,12 @@ services:
   
   mysql:
     image: mysql:8  
-    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
+      - MYSQL_USER=root
       - MYSQL_DATABASE=my_base
-      - MYSQL_USER= root
-      - MYSQL_ROOT_PASSWORD= admin123ADMIN
+      - MYSQL_ROOT_PASSWORD=secret-pw
+      - MYSQL_PASSWORD=admin123ADMIN
       - MYSQL_PORT=3306
     ports:
       - 3306:3306
@@ -36,8 +37,11 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_ROOT_PASSWORD=admin123ADMIN
       - PMA_HOST=mysql
+    depends_on:
+      - mysql
     ports:
       - 8080:80
