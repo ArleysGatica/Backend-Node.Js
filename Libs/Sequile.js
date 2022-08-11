@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const { config } = require('./../Env/Config');
-const SetModels = require('./../Models/indexM')
+const SetModels = require('../DB/Models/indexM')
 
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
@@ -13,7 +13,5 @@ const sequelize = new Sequelize(URI, {
 });
 
 SetModels(sequelize);
-
-sequelize.sync()
 
 module.exports = sequelize;
